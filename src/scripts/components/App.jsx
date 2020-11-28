@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Login from './Login.jsx';
 import User from './User.jsx';
-import '../../styles/App.css';
 
 /*
   flow: log user in
@@ -30,9 +29,17 @@ function App(props) {
   const { loggedIn } = props;
 
   return (
-    <div className="App">
-      {!loggedIn ? <Login /> : <User/>}
-    </div>
+    <html lang="en">
+      <head>
+        <title>WeWorship</title>
+        <script src="/static/bundle.js"></script>
+      </head>
+      <body>
+        <div id="root">
+          {!loggedIn ? <Login /> : <User/>}
+        </div>
+      </body>
+    </html>
   );
 }
 

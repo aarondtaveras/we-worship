@@ -7,7 +7,7 @@ const os = require('os');
 
 const app = express();
 
-app.use(express.static('../dist'));
+app.use('/static', express.static('public'));
 
 // Dynamically add routes
 // Object.keys(controllers).forEach((controller) => {

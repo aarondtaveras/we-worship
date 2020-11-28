@@ -1,31 +1,23 @@
+const path = require('path');
+const nodeExternals = require('webpack-node-externals');
+
 module.exports = {
-    devServer: {
-        publicPath: '/dist/',
-        watchContentBase: true,
-        allowedHosts: ['.mlb.com', 'localhost', ' 127.0.0.1', '.yesnetwork.com'],
-        host: '0.0.0.0',
-        public: 'http://localhost:8000',
-        watchOptions: {
-            aggregateTimeout: 3000,
-            poll: 1000,
-            ignored: [/node_modules/]
-        },
-        hot: true,
-        historyApiFallback: true,
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': '*'
-        },
-        stats: {
-            all: false,
-            chunks: true,
-            errors: true,
-            warnings: true,
-            errorDetails: true,
-            modules: false,
-            colors: {
-                green: '\u001b[32m'
+    entry: [
+        'babel-polyfill', './server/app.js'
+    ],
+    output: {
+        path: path.join(__dirname, './dist'),
+        filename: 'server.js',
+    },
+    target: 'node',
+    externals: [ nodeExternals() ],
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
             }
-        }
+        ]
     }
 };

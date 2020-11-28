@@ -26,7 +26,7 @@
     "serve": "node ./dist/server.js",
     "serve:dev": "nodemon ./dist/server.js",
     "start": "yarn run build && yarn run serve",
-    "dev": "yarn run build && serve:dev",
+    "dev": "yarn run build && yarn run serve:dev",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
