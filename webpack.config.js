@@ -1,57 +1,31 @@
-const path = require('path');
-const nodeExternals = require('webpack-node-externals');
-
 module.exports = {
-    entry: [
-        'babel-polyfill', './server/app.js'
-    ],
-    output: {
-        path: path.join(__dirname, './dist'),
-        filename: 'server.js'
-    },
-    target: 'node',
-    externals: [ nodeExternals()],
-    module: {
-        rules: [
-            { 
-                test: /\.jsx$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
-            },
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                    babelrc: false,
-                    presets: [
-                        [
-                            '@babel/preset-env',
-                            {
-                                targets: {
-                                    browsers: ['ie >= 11', 'Chrome >= 48', 'ff >= 43', 'Safari >= 9.0.3']
-                                },
-                                useBuiltIns: 'usage',
-                                corejs: 3 //,
-                                //modules: false
-                            }
-                        ],
-                        '@babel/preset-react'
-                    ],
-                    plugins: [
-                        '@babel/plugin-proposal-class-properties',
-                        '@babel/plugin-proposal-object-rest-spread',
-                        '@babel/plugin-syntax-dynamic-import',
-                        'babel-plugin-typescript-to-proptypes',
-                        'babel-plugin-styled-components'
-                    ]
-                }
-            }
+    devServer: {
+        publicPath: '/dist/',
+        watchContentBase: true,
+        allowedHosts: ['.mlb.com', 'localhost', ' 127.0.0.1', '.yesnetwork.com'],
+        host: '0.0.0.0',
+        public: 'http://localhost:8000',
+        watchOptions: {
+            aggregateTimeout: 3000,
+            poll: 1000,
+            ignored: [/node_modules/]
         },
-        {
-            test: /\.css$/,
-            loader: 'css-loader'
+        hot: true,
+        historyApiFallback: true,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': '*'
+        },
+        stats: {
+            all: false,
+            chunks: true,
+            errors: true,
+            warnings: true,
+            errorDetails: true,
+            modules: false,
+            colors: {
+                green: '\u001b[32m'
+            }
         }
-    ]}
-}
+    }
+};

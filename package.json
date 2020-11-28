@@ -20,9 +20,13 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "build": "yarn run webpack",
-    "start": "yarn run build && node ./dist/app.js",
-    "dev": "yarn run build && nodemon ./dist/server.js",
+    "build:server": "yarn run webpack",
+    "build:client": "yarn run webpack --config ./webpack.client.config.js",
+    "build": "yarn run build:server && yarn run build:client",
+    "serve": "node ./dist/server.js",
+    "serve:dev": "nodemon ./dist/server.js",
+    "start": "yarn run build && yarn run serve",
+    "dev": "yarn run build && serve:dev",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -71,6 +75,7 @@
     "core-js": "^3.8.0",
     "typescript": "^4.1.2",
     "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0",
     "webpack-node-externals": "^2.5.2"
   }
 }

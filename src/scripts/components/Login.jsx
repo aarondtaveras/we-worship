@@ -10,10 +10,6 @@ const Login = () => {
                     Click here to log in to Spotify
                 </a>
             </Button> 
-            {/* <form onSubmit={handleSubmit} className="login-field">
-                <TextField id="username" label="Username" />
-                <TextField id="password" type="password" label="Password" />
-            </form> */}
         </div>
     ); 
 };

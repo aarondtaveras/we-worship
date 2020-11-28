@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Track from './Track';
-import Playlist from './Playlist';
-import Login from './Login';
-import logo from './logo.svg';
-import './App.css';
+import Login from './Login.jsx';
+import User from './User.jsx';
+import '../../styles/App.css';
 
 /*
   flow: log user in
@@ -28,32 +26,12 @@ import './App.css';
 
 // Main app
 
-function App() {
-  const [playlists, getPlaylists] = useState([]);
-  const [userInfo, setUserInfo] = useState({});
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  const fetchPlaylists = () => {
-    if (loggedIn) {
-      fetch("https://api.spotify.com/v1/me/playlists")
-      .then(res => res.json())
-      .then((result) => {
-        console.log(result);
-      });
-    }
-  }
-  
-  const renderPlaylists = () => {
-    console.log('hello');
-  };
-
-  useEffect(fetchPlaylists, []);
+function App(props) {
+  const { loggedIn } = props;
 
   return (
     <div className="App">
-      <Login />
-      <div className="playlist-container">
-      </div>
+      {!loggedIn ? <Login /> : <User/>}
     </div>
   );
 }
