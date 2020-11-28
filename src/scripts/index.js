@@ -2,11 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App.jsx';
 
-console.log('client side');
+const serverProps = JSON.parse(unescape(window.data));
 
 ReactDOM.hydrate(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <App {...serverProps} />, document.getElementById('root')
 );

@@ -21,10 +21,6 @@ app.get('/', (req, res) => {
     res.send(ReactDOMServer.renderToString(<App/>));
 });
 
-app.get('/auth', (req,res) => {
-    res.send(ReactDOMServer.renderToString(<App loggedIn={true} />));
-});
-
 // Documentation here: https://github.com/spotify/web-api-auth-examples/blob/master/authorization_code/app.js
 const querystring = require('querystring');
 const request = require('request');
@@ -67,15 +63,14 @@ app.get('/login', function(req, res) {
       }));
   });
   
-app.get('/callback', function(req, res) {
+app.get('/auth', function(req, res) {
     // your application requests refresh and access tokens
     // after checking the state parameter
   
     let code = req.query.code || null;
     let state = req.query.state || null;
-    let storedState = req.cookies ? req.cookies[stateKey] : null;
   
-    if (state === null || state !== storedState) {
+    if (state === null) {
       res.redirect('/#' +
         querystring.stringify({
           error: 'state_mismatch'
@@ -106,14 +101,11 @@ app.get('/callback', function(req, res) {
             headers: { 'Authorization': 'Bearer ' + access_token },
             json: true
           };
-  
+          
           // use the access token to access the Spotify Web API
           request.get(options, function(error, response, body) {
-            console.log(body);
+            res.send(ReactDOMServer.renderToString(<App accessToken={access_token} loggedIn={true} userInfo={body}/>));
           });
-  
-          // we can also pass the token to the browser to make requests from there
-          res.send(ReactDOMServer.renderToString(<App loggedIn={true} />));
         } else {
           res.redirect('/#' +
             querystring.stringify({

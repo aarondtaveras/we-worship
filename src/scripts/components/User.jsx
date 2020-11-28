@@ -5,41 +5,28 @@ import Playlist from './Playlist.jsx';
 
 const User = (props) => {
     const [playlists, setPlaylists] = useState([]);
-    const [userInfo, setUserInfo] = useState({});
+    const { userInfo = {}, accessToken } = props;
+
     const fetchPlaylists = () => {
-        fetch("https://api.spotify.com/v1/me/playlists")
+        fetch(`https://api.spotify.com/v1/users/${userInfo.id}/playlists`, {
+            headers: new Headers({
+                'Authorization': 'Bearer ' + accessToken
+            })
+        })
         .then(res => res.json())
         .then((result) => {
             setPlaylists(result.items);
+            console.log(playlists);
         });
     }
-
-    const fetchUserData = () => {
-        console.log('fetching user data...');
-        fetch("https://api.spotify.com/v1/me")
-        .then(res => res.json())
-        .then((result) => {
-            console.log(result);
-            setUserInfo({
-                name: result.display_name,
-                id: result.id
-            });
-        });
-    }
-
-    const renderPlaylists = () => {
-        fetchPlaylists();
-        return <Playlist items={playlists} />;
-    };
-    
-    useEffect(fetchUserData, []);
 
     return (
         <div className="user-view">
-            {`Welcome ${userInfo.name}!`}
-            <Button onClick={renderPlaylists} color="primary">
+            {`Welcome ${userInfo.display_name}!`}
+            <Button onClick={fetchPlaylists} color="primary">
                 Click here to show your playlists!
             </Button>
+            {playlists && <Playlist items={playlists} />} 
         </div>
     );
 };

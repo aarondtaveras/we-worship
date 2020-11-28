@@ -26,18 +26,22 @@ import User from './User.jsx';
 // Main app
 
 function App(props) {
-  const { loggedIn } = props;
+  const { loggedIn = false, userInfo = {}, accessToken } = props;
 
   return (
     <html lang="en">
       <head>
         <title>WeWorship</title>
-        <script src="/static/bundle.js"></script>
+        <link rel="stylesheet" src="/static/index.css"/>
+        <script dangerouslySetInnerHTML={{
+          __html: `window.data = '${escape(JSON.stringify(props))}';`
+        }} />
       </head>
       <body>
         <div id="root">
-          {!loggedIn ? <Login /> : <User/>}
+          {!loggedIn ? <Login /> : <User userInfo={userInfo} accessToken={accessToken} />}
         </div>
+        <script src="/static/bundle.js"></script>
       </body>
     </html>
   );
