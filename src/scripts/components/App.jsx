@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Login from './Login.jsx';
-import User from './User.jsx';
+import Home from './Home.jsx';
+import SpotifyView from './SpotifyView.jsx';
 
 /*
   flow: log user in
@@ -26,20 +26,21 @@ import User from './User.jsx';
 // Main app
 
 function App(props) {
-  const { loggedIn = false, userInfo = {}, accessToken } = props;
+  const { loggedIn = false, userInfo = {}, accessToken, songsList } = props;
 
   return (
     <html lang="en">
       <head>
         <title>WeWorship</title>
-        <link rel="stylesheet" src="/static/index.css"/>
+        <link href="/static/index.css" rel="stylesheet"/>
+        <link href='https://fonts.googleapis.com/css?family=Alata' rel='stylesheet'/>
         <script dangerouslySetInnerHTML={{
           __html: `window.data = '${escape(JSON.stringify(props))}';`
         }} />
       </head>
       <body>
         <div id="root">
-          {!loggedIn ? <Login /> : <User userInfo={userInfo} accessToken={accessToken} />}
+          {!loggedIn ? <Home songsList={songsList} /> : <SpotifyView userInfo={userInfo} accessToken={accessToken} />}
         </div>
         <script src="/static/bundle.js"></script>
       </body>

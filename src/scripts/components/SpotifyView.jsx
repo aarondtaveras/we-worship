@@ -3,8 +3,9 @@ import { Button } from '@material-ui/core';
 import Playlist from './Playlist.jsx';
 // import Track from './Track';
 
-const User = (props) => {
+const SpotifyView = (props) => {
     const [playlists, setPlaylists] = useState([]);
+    // const [showTracks, setShowTracks] = useState(false);
     const { userInfo = {}, accessToken } = props;
 
     const fetchPlaylists = () => {
@@ -16,7 +17,6 @@ const User = (props) => {
         .then(res => res.json())
         .then((result) => {
             setPlaylists(result.items);
-            console.log(playlists);
         });
     }
 
@@ -26,9 +26,16 @@ const User = (props) => {
             <Button onClick={fetchPlaylists} color="primary">
                 Click here to show your playlists!
             </Button>
-            {playlists && <Playlist items={playlists} />} 
+            <a className="logout" href="https://accounts.spotify.com/en/logout">
+                CLICK TO LOGOUT
+            </a>
+            {playlists && 
+                playlists.map((p) => {
+                   return <Playlist userInfo={userInfo} accessToken={accessToken} playlist={p} />
+                })
+            } 
         </div>
     );
 };
 
-export default User;
+export default SpotifyView;
